@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { calculateTotal } from "./expenseUtils";
 import "./App.css";
 
 function App() {
@@ -37,10 +38,8 @@ function App() {
     setExpenses(expenses.filter((expense) => expense.id !== id));
   };
 
-  const total = expenses.reduce(
-    (sum, expense) => sum + expense.amount,
-    0
-  );
+  const total = calculateTotal(expenses);
+
 
   return (
     <div className="app">
