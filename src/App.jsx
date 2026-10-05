@@ -40,23 +40,41 @@ function App() {
 
   const total = calculateTotal(expenses);
 
+  const categoryIcons = {
+    Food: "🍔",
+    Transport: "🚌",
+    Entertainment: "🎬",
+    Education: "📚",
+    Other: "📌",
+  };
 
   return (
     <div className="app">
       <header className="header">
+        <div className="brand-icon">💳</div>
         <h1>Campus Expense Tracker</h1>
-        <p>Track your everyday college expenses easily.</p>
+        <p>Track your everyday college expenses with ease.</p>
       </header>
 
       <main className="container">
         <section className="summary-card">
+          <div className="summary-icon">₹</div>
           <p>Total Expenses</p>
           <h2>₹{total.toLocaleString("en-IN")}</h2>
-          <span>{expenses.length} transactions recorded</span>
+          <span>
+            {expenses.length}{" "}
+            {expenses.length === 1 ? "transaction" : "transactions"} recorded
+          </span>
         </section>
 
         <section className="card">
-          <h2>Add New Expense</h2>
+          <div className="section-heading">
+            <div>
+              <span className="section-label">TRACK YOUR SPENDING</span>
+              <h2>Add New Expense</h2>
+            </div>
+            <span className="section-icon">＋</span>
+          </div>
 
           <form onSubmit={addExpense} className="expense-form">
             <input
@@ -90,17 +108,35 @@ function App() {
         </section>
 
         <section className="card">
-          <h2>Recent Expenses</h2>
+          <div className="section-heading">
+            <div>
+              <span className="section-label">YOUR SPENDING</span>
+              <h2>Recent Expenses</h2>
+            </div>
+            <span className="transaction-count">{expenses.length}</span>
+          </div>
 
           {expenses.length === 0 ? (
-            <p className="empty">No expenses recorded yet.</p>
+            <div className="empty">
+              <div className="empty-icon">🧾</div>
+              <p>No expenses recorded yet.</p>
+              <span>Add your first expense above.</span>
+            </div>
           ) : (
             <div className="expense-list">
               {expenses.map((expense) => (
                 <div className="expense-item" key={expense.id}>
-                  <div>
-                    <h3>{expense.name}</h3>
-                    <span>{expense.category}</span>
+                  <div className="expense-info">
+                    <div className="category-icon">
+                      {categoryIcons[expense.category]}
+                    </div>
+
+                    <div>
+                      <h3>{expense.name}</h3>
+                      <span className={`category-badge ${expense.category.toLowerCase()}`}>
+                        {expense.category}
+                      </span>
+                    </div>
                   </div>
 
                   <div className="expense-right">
@@ -108,6 +144,7 @@ function App() {
                     <button
                       className="delete-button"
                       onClick={() => deleteExpense(expense.id)}
+                      aria-label={`Delete ${expense.name}`}
                     >
                       Delete
                     </button>
@@ -118,6 +155,10 @@ function App() {
           )}
         </section>
       </main>
+
+      <footer className="footer">
+        Campus Expense Tracker • Built with React & Vite
+      </footer>
     </div>
   );
 }
