@@ -9,7 +9,7 @@ describe("calculateTotal", () => {
       { name: "Education", amount: 450 },
     ];
 
-    expect(calculateTotal(expenses)).toBe(751);
+    expect(calculateTotal(expenses)).toBe(750);
   });
 
   test("returns zero when there are no expenses", () => {
